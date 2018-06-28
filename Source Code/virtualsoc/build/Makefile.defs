@@ -1,0 +1,58 @@
+############## Base name of output executable file
+MODULE = vsoc
+
+############## Default compiler and possible option sets
+CC = g++-4.6
+
+#DEFAULTFLAGS: see globals.cpp for more details
+DEFAULTFLAGS  = -DMAKEFILE_DEFAULT_CURRENT_ISS=ARMv6 -DMAKEFILE_DEFAULT_CURRENT_INTERC=SINGLE_CLUSTER \
+                -DMAKEFILE_DEFAULT_N_CORES=4 -DMAKEFILE_DEFAULT_CL_ICACHE_PRIV=true \
+                -DMAKEFILE_DEFAULT_NSIMCYCLES=-1 -DMAKEFILE_DEFAULT_DRAM=false \
+                -DMAKEFILE_DEFAULT_VCD=false -DMAKEFILE_DEFAULT_AUTOSTARTMEASURING=false \
+                -DMAKEFILE_DEFAULT_MEM_IN_WS=50 -DMAKEFILE_DEFAULT_MEM_BB_WS=1 \
+                -DMAKEFILE_DEFAULT_STATS=false -DMAKEFILE_DEFAULT_STATSFILENAME='"stats.txt"' \
+                -DMAKEFILE_DEFAULT_POWERSTATS=false -DMAKEFILE_DEFAULT_PTRACEFILENAME='"ptrace.txt"' \
+                -DMAKEFILE_DEFAULT_DMA=false \
+                -DMAKEFILE_DEFAULT_N_CORES_TILE=1 -DMAKEFILE_DEFAULT_N_TILE=1 \
+                -DMAKEFILE_DEFAULT_N_SHR_CACHE_BANKS=16 -DMAKEFILE_DEFAULT_CL_ICACHE_SIZE=4*1024 \
+                -DMAKEFILE_DEFAULT_ENABLE_CRU=false -DMAKEFILE_DEFAULT_CRU_DEPTH=1 \
+                -DMAKEFILE_DEFAULT_DRAM_MC_PORTS=1 -DMAKEFILE_DEFAULT_INT_WS=1 \
+                -DMAKEFILE_DEFAULT_L3_MUX_STATIC_MAP=false -DMAKEFILE_TRACE_ISS=false 
+
+### for debugging purposes: -O0 -g
+OPT           = -Wall -Wno-deprecated -fexceptions -O0 -g -DQUIET -DTRACELEVEL=0 #-pg
+
+############## Enable -pg for executable profiling
+
+  # To activate just the debug output (TRACE and TRACEX) from the command line: 
+  #    make <targets> <other_options>  DEBUGOUT=1
+ifdef DEBUGOUT
+OPT += -DOUTDEBUG
+endif
+
+DEBUGOPTS     = -Wall -fexceptions -O0 -g -DSCRATCHPRINTDEBUG -DTRACELEVEL=12 -DPRINTDEBUG -DWITH_TIME_COUNTER \
+                -DDMAPRINTDEBUG -DDMAPRINTDEBUG1 -DDMAPRINTDEBUG2 -DMEMORYDEBUG #-DNOCORE
+OPTIONSET     = QUIET
+#OPTIONSET     = VERBOSE
+
+############## Please notice: the CC compiler will be started with the DEFAULTFLAGS and
+############## one among the OPT and DEBUGOPTS feature sets. The choice between OPT and
+############## DEBUGOPTS sets is made by setting OPTIONSET to either the QUIET or VERBOSE
+############## values. QUIET will be tuned for speed (default), while VERBOSE will print
+############## lots of debug information and turn on an integrated step-by-step debugger.
+############## Additional platform-specific configurable options may be found in
+############## related Makefiles.
+
+BUILDOPTIONS  = QUIET
+#BUILDOPTIONS  = VERBOSE
+
+############## This switch is for build control purposes only. With QUIET, compilation command
+############## lines will be suppressed and will get replaced by compact messages; with
+############## VERBOSE, full output will be printed. Color associations for the compact style
+############## can be chosen below for optimal readability (DEFAULTCOLOR, RED, GREEN,
+############## YELLOW, BLUE, VIOLET, CYAN, WHITE).
+
+############## Association of colors to building steps
+LINK       = $(RED)
+COMPILE    = $(BLUE)
+DEPENDENCY = $(VIOLET)

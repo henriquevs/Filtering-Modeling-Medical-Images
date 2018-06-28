@@ -1,0 +1,14 @@
+DEBUGOPTS +=
+PLATFLAGS += -DCLUSTERBUILD 
+INCDIR    += -I$(VSOC_SRC_DIR)/cluster
+CPPSRCS   += cl_memory.cpp cl_semaphore.cpp cl_xbar_sharedI.cpp \
+             cl_miss_mux.cpp cl_sync_handler.cpp cl_dma.cpp \
+             cl_hws.cpp cl_lic.cpp cl_pic.cpp cl_1st_stage_demux.cpp \
+	     cl_cru.cpp cl_L3_mux_NM.cpp cl_DRAM-memory-mp.cpp \
+             cl_output_mem.cpp  
+VPATH     += $(VSOC_SRC_DIR)/cluster 
+
+#String to print during build process
+MSGSTRING += "single cluster   "
+
+cluster: printmessage $(EXE)
