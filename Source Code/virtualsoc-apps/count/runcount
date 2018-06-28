@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+
+@new_arg = @ARGV;
+@opt_makearg = ("--opt_makearg=' '"); #put some application options here.. (if any)
+
+$ENV{'APP_DIR'} = $ENV{'PWD'};
+$ENV{'PATH'} = "$ENV{'PATH'}:$ENV{'APP_DIR'}/../rtems-cross/bin";
+#print("\n APP_DIR = $ENV{'APP_DIR'}\n");
+print("\n new PATH = $ENV{'PATH'}\n");
+#system("arm-rtems-gcc --version");
+
+
+EXEC("$ENV{'APP_DIR'}/../scripts/runbench @new_arg @opt_makearg");
+
+sub EXEC{
+print($_[0] ."\n");
+system($_[0]);
+}
